@@ -1,16 +1,24 @@
 import os
 from bs4 import BeautifulSoup
 
-# フォルダのパスを指定します
+# フォルダのパスを指定
 folder_path = "./log"
+
+# オブジェクト格納用の配列
+players = {}
+
+# 名前を受け取る関数
+def process_name(name):
+    if name in players:
+        # 既存の名前ならカウントを+1
+        players[name] += 1
+    else:
+        # 新しい名前ならカウントを1に初期化
+        players[name] = 1
 
 try:
     # フォルダ内のファイル一覧を取得します
     file_names = os.listdir(folder_path)
-    
-    # フォルダ内の各ファイル名を表示します
-    # for file_name in file_names:
-        # print(file_name)
 except FileNotFoundError:
     print(f"{folder_path} が見つかりませんでした。")
 except Exception as e:
@@ -37,6 +45,15 @@ for file_name in file_names:
     # <span>タグの内容を取得し、リストに格納
     span_contents = [span.get_text() for span in soup.find_all('span')]
 
-    # リスト内の内容を表示
+    # リスト内の内容を表示(flagが1の時だけ)
+    flag = 0
     for content in span_contents:
-        print(content.strip())  # strip()を使って余分な空白を取り除きます
+        if content == " [メイン]":
+            flag = 1 # メインの次の内容を取得するためflagを立てる
+        elif flag == 1:
+            process_name( content.strip() )# strip()を使って余分な空白を取り除きます
+            flag = 0
+    
+# 名前ごとのカウントを表示
+for name, count in players.items():
+    print(f"{name}: {count}回")
