@@ -1,7 +1,8 @@
 
-# pyinstallerでのビルドに関わる、build、distはgit管理しない
+# pyinstallerでのビルドに関わるものはgit管理しない
 build/
 dist/
+main.spec
 
 # logファイルの配置場所はgit管理しない。
 log/

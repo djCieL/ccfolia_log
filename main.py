@@ -1,12 +1,19 @@
+import sys
 import os
 import re
 from bs4 import BeautifulSoup
 
+# 実行ファイルの配置場所の絶対パスを取得
+# .pyで使う際は __file__ を、.exeで使用する際は sys.argv[0]を利用すること。
+# base_path = os.path.dirname(sys.argv[0])
+base_path = os.path.dirname(os.path.abspath(__file__))
+print(base_path)
+
 # 入力ログファイルのあるフォルダのパスを指定
-folder_path = "./log"
+folder_path = base_path + "/log"
 
 # 結果出力先のフォルダのパスを指定
-output_directory = "output"
+output_directory = base_path + "/output"
 # 出力ディレクトリが存在しない場合は作成しておく
 if not os.path.exists(output_directory):
     os.makedirs(output_directory)
